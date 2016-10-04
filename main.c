@@ -20,7 +20,6 @@ void binarySearch(int arr[], int len){
     while (left<=right){
         middle = (left+right)/2;
         if (arr[middle] == user){
-            printf("%d is in index %d\n", arr[middle], middle);
             break;
         }
         if (arr[middle] < user)
@@ -34,9 +33,36 @@ void binarySearch(int arr[], int len){
     printf("\n");
 }
 
+void SelectionSort(int A[], int N){
+    int i, j, temp;
+    for (i=0; i<N-1; i++){
+        int min=i;
+        for (j=i+1; j<N; j++)
+            if (A[j] < A[min])
+                min = j;
+        temp = A[min];
+        A[min] = A[i];
+        A[i] = temp;
+    }
+}
+
+void Print(int arr[], int len){
+    int i;
+    for (i=0; i<len; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+
 int main(void)
 {
-    int intArray[10] = {0,2,4,6,8,10,12,16,18,49};
+    int intArray[10] = {48, 43, 1, 4, 7, 9, 23, 6, 1, 0};
     int length = (sizeof(intArray)/sizeof(int));
-    binarySearch(intArray, length);
+    Print(intArray, length);
+    
+    SelectionSort(intArray, length);
+    Print(intArray, length);
+    
+    
+    //binarySearch(intArray, length);
 }
