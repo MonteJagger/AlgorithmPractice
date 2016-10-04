@@ -35,14 +35,27 @@ void binarySearch(int arr[], int len){
 
 void SelectionSort(int A[], int N){
     int i, j, temp;
-    for (i=0; i<N-1; i++){
+    for (i=0; i<N-1; i++){ // (N-1)
         int min=i;
-        for (j=i+1; j<N; j++)
+        for (j=i+1; j<N; j++) //(N-1-i)
             if (A[j] < A[min])
                 min = j;
         temp = A[min];
         A[min] = A[i];
         A[i] = temp;
+    }
+}
+
+void InsertionSort(int A[], int N){
+    int i, j, key;
+    for (i=1; i<N; i++){
+        key = A[i];
+        j = i-1;
+        while (j>=0 && A[j]>key){
+            A[j+1] = A[j];
+            j = j-1;
+        }
+        A[j+1] = key;
     }
 }
 
@@ -60,7 +73,8 @@ int main(void)
     int length = (sizeof(intArray)/sizeof(int));
     Print(intArray, length);
     
-    SelectionSort(intArray, length);
+    //SelectionSort(intArray, length);
+    InsertionSort(intArray, length);
     Print(intArray, length);
     
     
