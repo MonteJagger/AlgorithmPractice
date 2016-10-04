@@ -9,74 +9,102 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void binarySearch(int arr[], int len){
-    int i;
-    int left=0, right= len-1;
-    int middle;
-    int user;
-    printf("Type a number: ");
-    scanf("%d", &user);
-    
-    while (left<=right){
-        middle = (left+right)/2;
-        if (arr[middle] == user){
-            break;
-        }
-        if (arr[middle] < user)
-            left = middle+1;
-        else
-            right = middle-1;
-    }
-    
-    if (left > right)
-        printf("Does not exist\n");
-    printf("\n");
-}
-
-void SelectionSort(int A[], int N){
-    int i, j, temp;
-    for (i=0; i<N-1; i++){ // (N-1)
-        int min=i;
-        for (j=i+1; j<N; j++) //(N-1-i)
-            if (A[j] < A[min])
-                min = j;
-        temp = A[min];
-        A[min] = A[i];
-        A[i] = temp;
-    }
-}
-
-void InsertionSort(int A[], int N){
-    int i, j, key;
-    for (i=1; i<N; i++){
-        key = A[i];
-        j = i-1;
-        while (j>=0 && A[j]>key){
-            A[j+1] = A[j];
-            j = j-1;
-        }
-        A[j+1] = key;
-    }
-}
-
-void Print(int arr[], int len){
-    int i;
-    for (i=0; i<len; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
-}
-
-
-int main(void)
+// Merges two subarrays of arr[].
+// First subarray is arr[l..m]
+// Second subarray is arr[m+1..r]
+void merge(int arr[], int l, int m, int r)
 {
-    int intArray[10] = {48, 43, 1, 4, 7, 9, 23, 6, 1, 0};
-    int length = (sizeof(intArray)/sizeof(int));
-    Print(intArray, length);
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 =  r - m;
     
-    //SelectionSort(intArray, length);
-    InsertionSort(intArray, length);
-    Print(intArray, length);
+    /* create temp arrays */
+    int L[n1], R[n2];
     
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1+ j];
     
-    //binarySearch(intArray, length);
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2)
+    {
+        if (L[i] <= R[j])
+        {
+            arr[k] = L[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    /* Copy the remaining elements of L[], if there
+     are any */
+    while (i < n1)
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    
+    /* Copy the remaining elements of R[], if there
+     are any */
+    while (j < n2)
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+/* l is for left index and r is right index of the
+ sub-array of arr to be sorted */
+void mergeSort(int arr[], int l, int r)
+{
+    if (l < r)
+    {
+        // Same as (l+r)/2, but avoids overflow for
+        // large l and h
+        int m = l+(r-l)/2;
+        
+        // Sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m+1, r);
+        
+        merge(arr, l, m, r);
+    }
+}
+
+/* UTILITY FUNCTIONS */
+/* Function to print an array */
+void printArray(int A[], int size)
+{
+    int i;
+    for (i=0; i < size; i++)
+        printf("%d ", A[i]);
+    printf("\n");
+}
+
+/* Driver program to test above functions */
+int main()
+{
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int arr_size = sizeof(arr)/sizeof(arr[0]);
+    
+    printf("Given array is \n");
+    printArray(arr, arr_size);
+    
+    mergeSort(arr, 0, arr_size - 1);
+    
+    printf("\nSorted array is \n");
+    printArray(arr, arr_size);
+    return 0;
 }
