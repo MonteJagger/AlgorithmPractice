@@ -1,11 +1,3 @@
-
-    /*
-     Hiumathy Lam
-     2168-CSE-3320-001
-     Assignment #1
-     */
-    
-
 #include <stdlib.h>
 #include <stdio.h>
 
